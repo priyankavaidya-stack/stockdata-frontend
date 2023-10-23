@@ -30,6 +30,7 @@ export default {
     return {
       symbol: '',
       selectedPeriod: 'daily',
+      isZoomed: false,
       showChart: true,
       responseData: null,
       error: null
@@ -768,19 +769,20 @@ export default {
         });
     },
     mountChart(timeSeriesData) {
-      console.log(this.showChart);
 
       if(!this.showChart) return;
 
-
       const chartDiv = document.getElementById('container');
       const chartOptions = { layout: { textColor: 'black', background: { type: 'solid', color: 'white' } } };
+        
       const chart = createChart(chartDiv, chartOptions);
 
       window.onresize = function() {
         chart.applyOptions({ 
             width: chartDiv.offsetWidth, 
-            height: chartDiv.offsetHeight 
+            height: chartDiv.offsetHeight ,
+            handleScroll: true,
+            handleScale: true
         });
       }
 
@@ -789,7 +791,7 @@ export default {
           wickUpColor: '#26a69a', wickDownColor: '#ef5350',
       });
 
-      const data = Object.keys(timeSeriesData).map(date => {
+        const data = Object.keys(timeSeriesData).map(date => {
         const item = timeSeriesData[date];
         const formattedDate = new Date(date).getTime()/1000; // Convert date to UNIX timestamp
 
@@ -798,21 +800,31 @@ export default {
           open: parseFloat(item['1. open']),
           high: parseFloat(item['2. high']),
           low: parseFloat(item['3. low']),
-          close: parseFloat(item['4. close'])
+          close: parseFloat(item['4. close']),
+          volume: parseFloat(item['5. volume'])
         };
       });
 
+        const sortedData = data.sort((a, b) => a.time - b.time);
 
-      const sortedData = data.sort((a, b) => a.time - b.time);
+        console.log(sortedData);
 
-      console.log(sortedData);
-      // candlestickSeries.setData(sortedData);
+        candlestickSeries.setData(sortedData);
 
-    candlestickSeries.setData(sortedData);
+        const timeScale = chart.timeScale();
+        timeScale.applyOptions({
+            borderColor: "#71649C",
+            // rightOffset: 20,
+            barSpacing: 15,
+            minBarSpacing: 5,
+            fixLeftEdge: true,
+            fixRightEdge: true
+        })
+        timeScale.setVisibleRange({ from: sortedData[0].time, to: sortedData[99].time });
 
-    chart.timeScale().fitContent();
+        // chart.timeScale().fitContent();
 
-  }
+    }
 
   }
 }

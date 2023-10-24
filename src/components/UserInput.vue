@@ -5,15 +5,19 @@
   <div class="container">
     <div class="box">
         <div class="input-box">
-            <input class="symbol-input" v-model="symbol" type="text" placeholder="Enter symbol name..." />
+            <div class="user-input">
+              <label for="symbolInput" class="input-label">Symbol</label>
+              <input class="symbol-input" v-model="symbol" type="text" placeholder="Enter symbol name..." name="symbolInput" />
+            </div>
             <p class="error-msg" v-if="errorMessage">{{ errorMessage }}</p>
         </div>
-        <section class="dropdown-wrapper">
+        <div class="dropdown-wrapper">
+            <label for="symbolInput" class="input-label">Period</label>
             <select v-model="selectedPeriod">
                 <option value="daily">Daily</option>
                 <option value="hourly">Hourly</option>
-            </select>
-        </section>
+            </select>         
+        </div>
     </div>
     
     <button 
@@ -925,6 +929,17 @@ export default {
   justify-content: center;
 }
 
+.user-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+label {
+  font-size: 14px;
+  padding-bottom: 5px;
+}
 .error-msg {
     text-align: left;
     color: red;
@@ -940,6 +955,13 @@ export default {
   font-size: 16px;
   padding-left: 8px;
   border-radius: 5px;
+}
+
+.dropdown-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 select{
@@ -1026,8 +1048,8 @@ select option:checked {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin: 10px;
-    padding-top: 10px;
+    margin: 10px 10px 0 10px;
+    padding: 10px 0;
   }
 
   .title {
@@ -1040,15 +1062,16 @@ select option:checked {
     width: 100%;
     gap: 30px;
   }
+
+  .input-box {
+    width: 90%;
+  }
   .symbol-input{
     width: 100%;
   }
 
   .dropdown-wrapper {
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    width: 70%;
   }
 
   select {

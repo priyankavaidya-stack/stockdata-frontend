@@ -1,15 +1,15 @@
 <template>
-  <HelloWorld msg="Stock Market Data Visualization"/>
+  <UserInput msg="Stock Market Data Visualization"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import UserInput from './components/UserInput.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    UserInput
+}
 }
 </script>
 
@@ -24,7 +24,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #fff;
-  padding-top: 60px;
   background-color: #040a11;
   height: 120vh;
   width: 100%;

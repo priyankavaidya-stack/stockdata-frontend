@@ -16,7 +16,17 @@
         </section>
     </div>
     
-    <button @click="fetchData" class="fetch-btn"  :style="{ backgroundColor: isDisabled ? '#4CAF50' : '#006400',  opacity: isDisabled ? 0.6 : 1, cursor: isDisabled ?  'not-allowed' : 'pointer' }" :disabled="isDisabled">Fetch Data</button>
+    <button 
+      @click="fetchData" 
+      class="fetch-btn"  
+      :style="{ backgroundColor: isDisabled ? '#4CAF50' : '#006400',  opacity: isDisabled ? 0.6 : 1, cursor: isDisabled ?  'not-allowed' : 'pointer' }" 
+      :disabled="isDisabled">
+      Fetch Data
+    </button>
+    
+    <!-- Loader -->
+    <div v-if="loading" class="loader"></div>
+
     <!-- Display fetched data here -->
     <div class="chart" id="container" ref="chartContainer" v-if="showChart" style="width: 100% ; height: 400px;"></div>
   </div>
@@ -40,6 +50,7 @@ export default {
         isDisabled: false,
         isZoomed: false,
         showChart: true,
+        loading: false,
         responseData: null,
         error: null
         };
@@ -87,6 +98,8 @@ export default {
                 // Clear the chart container before rendering the new chart
                 this.clearChartContainer(); 
 
+                this.loading = true;
+
                 const url = `http://localhost:8081/api/search?symbol=${this.symbol}&period=${this.selectedPeriod}`;
 
                 fetch(url)
@@ -97,6 +110,8 @@ export default {
                     return response.json();
                     })
                     .then(data => {
+
+                        this.loading = false;
 
                         console.log(data);
 
@@ -989,6 +1004,21 @@ select option:checked {
   margin-top: 20px;
 }
 
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 /* Mobile Styles */
 @media (max-width: 450px) {
   .container {
@@ -1029,10 +1059,9 @@ select option:checked {
     margin-top: 20px;
   }
   .chart {
-    /* width: 100%;
-    height: 250px; */
     margin-top: 20px;
   }
+
 }
 
 </style>

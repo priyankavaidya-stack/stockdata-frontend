@@ -25,7 +25,7 @@ body {
   text-align: center;
   color: #fff;
   background-color: #040a11;
-  height: 130vh;
+  height: 150vh;
   width: 100%;
 }
 </style>

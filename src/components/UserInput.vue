@@ -160,7 +160,7 @@ export default {
                 })
                 .catch(error => {
                     // handle error and return error message
-                     console.log();(error.message);
+                    console.log(error.message);
                     this.catchError =this.errorMessages.apiError;
                     this.errorMessage = this.errorMessages.notValid;
 

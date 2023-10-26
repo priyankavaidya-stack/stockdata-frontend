@@ -162,6 +162,7 @@ export default {
                     // handle error and return error message
                     console.log(error.message);
                     this.catchError =this.errorMessages.apiError;
+                    this.loading = false;
                     this.errorMessage = this.errorMessages.notValid;
 
                     // Clear the chart container before rendering the new chart
